@@ -128,9 +128,32 @@ Membungkus tombol "Keluar" ke dalam <form action={logout}> sehingga ketika dikli
 
 ## US-05 Ganti password
 
-**Prompt:**
+**Prompt:Baca docs/user-stories.md bagian US-05.
 
-**Hasil:**
+Buat Server Action ganti password di app/admin/actions.js untuk admin yang sedang login, memakai Supabase Auth. Validasi di server: password baru minimal 8 karakter dan harus sama dengan konfirmasi. Tampilkan pesan berhasil atau pesan error yang jelas di halaman. Sambungkan ke form di app/admin/password/page.jsx tanpa mengubah tampilannya. Hapus CatatanBelumAktif dari halaman ini.**
+
+**Hasil:Fitur US-05: Ganti password telah selesai dikerjakan sesuai spesifikasi.
+
+File yang Diubah
+
+app/admin/actions.js
+
+Menambahkan Server Action gantiPassword.
+Melakukan validasi server:
+Password baru dan konfirmasi wajib diisi.
+Password baru minimal 8 karakter.
+Password baru harus sama dengan konfirmasi.
+Memeriksa sesi admin yang sedang login via supabase.auth.getUser().
+Memanggil supabase.auth.updateUser({ password: passwordBaru }) untuk memperbarui password di Supabase Auth.
+Mengembalikan pesan error atau pesan sukses ({ success: "Password berhasil diganti." }).
+
+app/admin/password/page.jsx
+
+Mengubah halaman menjadi client component ("use client") yang terhubung ke Server Action gantiPassword menggunakan React useActionState.
+Menampilkan pesan error (text-bahaya) jika validasi gagal atau terjadi kesalahan.
+Menampilkan pesan berhasil (text-utama) saat password sukses diperbarui.
+Menonaktifkan tombol submit saat sedang memproses (disabled={pending}).
+Menghapus komponen CatatanBelumAktif dengan tetap mempertahankan tampilan form dan struktur halaman.**
 
 **Perbaikan:**
 
