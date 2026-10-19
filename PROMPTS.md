@@ -91,9 +91,38 @@ Coba juga di HP untuk memastikan WhatsApp mobile terbuka dengan benar.**
 
 ## US-04 Login admin
 
-**Prompt:**
+**Prompt:Baca AGENTS.md bagian aturan keamanan dan docs/user-stories.md bagian US-04.
 
-**Hasil:**
+Buat login admin memakai Supabase Auth (email dan password) dengan @supabase/ssr dan cookie, memakai SUPABASE_URL dan SUPABASE_PUBLISHABLE_KEY. Login diproses dengan Server Action di app/admin/actions.js dan disambungkan ke form di app/admin/login/page.jsx. Login berhasil diarahkan ke /admin; login gagal menampilkan pesan error yang jelas di halaman login. Buat juga tombol "Keluar" di components/NavAdmin.jsx berfungsi: mengakhiri sesi lalu kembali ke /admin/login. Jangan ubah tampilan. Hapus CatatanBelumAktif dari halaman login.**
+
+**Hasil:Fitur US-04: Login admin telah selesai dikerjakan sesuai spesifikasi dan aturan keamanan.
+
+File yang Dibuat dan Diubah
+
+lib/supabase/admin.js (Baru)
+
+Membuat fungsi buatKoneksiSesiAdmin menggunakan createServerClient dari @supabase/ssr dan cookie store dari next/headers.
+Menggunakan SUPABASE_URL dan SUPABASE_PUBLISHABLE_KEY dari environment variable agar RLS tetap berlaku sesuai sesi autentikasi admin.
+
+lib/supabase/index.js (Diperbarui)
+
+Menambahkan re-export modul admin dari ./admin.
+
+app/admin/actions.js (Baru)
+
+Membuat Server Action:
+login(prevState, formData): Memvalidasi input dan memanggil supabase.auth.signInWithPassword. Jika berhasil, me-redirect ke /admin; jika gagal, mengembalikan pesan error.
+logout(): Memanggil supabase.auth.signOut() lalu me-redirect ke /admin/login.
+
+app/admin/login/page.jsx (Diubah)
+
+Menghubungkan form ke Server Action login dengan React useActionState.
+Menampilkan pesan error saat login gagal dengan styling token warna text-bahaya.
+Menghapus komponen CatatanBelumAktif. Tampilan form dan tombol tetap dipertahankan.
+
+components/NavAdmin.jsx (Diubah)
+
+Membungkus tombol "Keluar" ke dalam <form action={logout}> sehingga ketika diklik akan memproses logout di server dan mengarahkan kembali ke /admin/login.**
 
 **Perbaikan:**
 
