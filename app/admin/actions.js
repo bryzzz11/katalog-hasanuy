@@ -110,3 +110,72 @@ export async function tambahProduk(prevState, formData) {
   revalidatePath("/admin");
   redirect("/admin");
 }
+
+export async function ubahProduk(prevState, formData) {
+  const form = formData instanceof FormData ? formData : prevState;
+  const supabase = await buatKoneksiSesiAdmin();
+
+  // Periksa login admin di server
+  const {
+    data: { user },
+    error: authError,
+  } = await supabase.auth.getUser();
+
+  if (authError || !user) {
+    throw new Error("Kamu harus login terlebih dahulu.");
+  }
+
+  const id = form.get("id");
+  const nama = form.get("nama");
+  const harga = parseInt(form.get("harga"), 10);
+  const kategori = form.get("kategori") || "";
+  const foto_url = form.get("foto_url") || "";
+  const deskripsi = form.get("deskripsi") || "";
+
+  if (!id || !nama || isNaN(harga) || harga < 0) {
+    throw new Error("Data produk tidak lengkap atau tidak valid.");
+  }
+
+  const { error } = await supabase
+    .from("produk")
+    .update({
+      nama,
+      harga,
+      kategori,
+      foto_url,
+      deskripsi,
+    })
+    .eq("id", id);
+
+  if (error) {
+    throw new Error(error.message || "Gagal mengubah produk.");
+  }
+
+  revalidatePath("/");
+  revalidatePath("/admin");
+  revalidatePath(`/produk/${id}`);
+  redirect("/admin");
+}
+
+export async function hapusProduk(id) {
+  const supabase = await buatKoneksiSesiAdmin();
+
+  // Periksa login admin di server
+  const {
+    data: { user },
+    error: authError,
+  } = await supabase.auth.getUser();
+
+  if (authError || !user) {
+    throw new Error("Kamu harus login terlebih dahulu.");
+  }
+
+  const { error } = await supabase.from("produk").delete().eq("id", id);
+
+  if (error) {
+    throw new Error(error.message || "Gagal menghapus produk.");
+  }
+
+  revalidatePath("/");
+  revalidatePath("/admin");
+}
