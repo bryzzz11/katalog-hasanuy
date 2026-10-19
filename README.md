@@ -78,3 +78,11 @@ Urutan yang disarankan: US-01, US-02, US-03, US-04, US-05, US-06, lalu fitur bon
 - **Pembuat:Bryan Abisai Immanuel Sitorus**
 - **Link aplikasi:https://katalog-hasanuy.vercel.app/**
 - **Fitur bonus yang dikerjakan:**
+US-07 List produk di halaman admin dari database	10
+US-08 Tambah produk (harus terkunci login)	10
+US-09 Ubah produk (harus terkunci login)	10
+US-10 Hapus produk (harus terkunci login)	10
+US-11 Filter kategori atau pencarian	10
+US-12 Pilih jumlah atau varian	10
+US-13 Bisa di-install di HP (PWA)	10
+US-14 Deskripsi produk dibuat AI	10

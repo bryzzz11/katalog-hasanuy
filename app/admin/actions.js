@@ -179,3 +179,54 @@ export async function hapusProduk(id) {
   revalidatePath("/");
   revalidatePath("/admin");
 }
+
+export async function buatDeskripsiAI(nama, kategori) {
+  const supabase = await buatKoneksiSesiAdmin();
+
+  // Pastikan admin login di server
+  const {
+    data: { user },
+    error: authError,
+  } = await supabase.auth.getUser();
+
+  if (authError || !user) {
+    return { error: "Kamu harus login terlebih dahulu." };
+  }
+
+  const apiKey = process.env.GEMINI_API_KEY;
+  if (!apiKey) {
+    return { error: "GEMINI_API_KEY belum diisi di environment variable (.env.local)." };
+  }
+
+  if (!nama) {
+    return { error: "Nama produk harus diisi terlebih dahulu." };
+  }
+
+  const prompt = `Buatkan deskripsi produk UMKM yang menarik, singkat, dan menjual (1 sampai 2 kalimat dalam Bahasa Indonesia) untuk produk berikut:\nNama produk: ${nama}\nKategori: ${kategori || "Umum"}\nLangsung tuliskan deskripsinya saja tanpa tanda petik atau kalimat pembuka/penutup.`;
+
+  try {
+    const response = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${apiKey}`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          contents: [{ parts: [{ text: prompt }] }],
+        }),
+      }
+    );
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      return { error: data.error?.message || "Gagal memanggil API Gemini." };
+    }
+
+    const parts = data.candidates?.[0]?.content?.parts || [];
+    const textPart = parts.find((p) => p.text && !p.thought)?.text || parts.find((p) => p.text)?.text || "";
+    const deskripsi = textPart.trim();
+    return { deskripsi };
+  } catch (err) {
+    return { error: err.message || "Terjadi kesalahan saat memproses permintaan AI." };
+  }
+}
