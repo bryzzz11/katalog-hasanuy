@@ -5,34 +5,23 @@ Catat prompt penting selama membangun aplikasi: apa yang kamu minta, hasilnya, d
 ## US-01 Katalog dari database
 
 **Prompt:Baca AGENTS.md dan docs/user-stories.md bagian US-01.
-
 Ubah app/page.jsx supaya daftar produk diambil dari tabel "produk" di Supabase, di sisi server, memakai SUPABASE_URL dan SUPABASE_SECRET_KEY dari environment variable. Buat koneksi Supabase untuk server di folder lib/supabase.
-
 Tampilkan produk dengan komponen KartuProduk yang sudah ada, tanpa mengubah tampilannya. Kalau gagal mengambil data, tampilkan pesan error yang jelas di halaman. Kalau tabel kosong, tampilkan tulisan "Belum ada produk". Hapus CatatanBelumAktif dari halaman ini.**
-
 **Hasil:Fitur US-01: Katalog dari database telah selesai dikerjakan sesuai spesifikasi.
-
 File yang Dibuat dan Diubah
-
 lib/supabase/server.js & lib/supabase/index.js (Baru)
-
 Membuat fungsi buatKoneksiServer menggunakan @supabase/supabase-js dengan SUPABASE_URL dan SUPABASE_SECRET_KEY dari environment variable.
 Mengatur opsi persistSession: false dan autoRefreshToken: false karena berjalan di lingkungan server tanpa session browser.
 Menambahkan normalisasi URL agar kebal terhadap penulisan path REST API (misalnya akhiran /rest/v1).
-
 app/page.jsx (Diubah)
-
 Mengubah komponen HalamanKatalog menjadi Server Component async yang mengambil data produk langsung dari tabel produk di Supabase.
 Menampilkan produk dengan komponen KartuProduk bawaan tanpa mengubah tata letak maupun tampilannya.
 Menangani pesan error yang jelas jika pengambilan data gagal.
 Menampilkan teks "Belum ada produk" jika tabel kosong.
 Menghapus komponen CatatanBelumAktif dan impor data contoh produkContoh.
-
 .env.local (Diperbaiki)
-
 Menyesuaikan SUPABASE_URL ke root URL project (https://jwmangteihrhwkhmkoiv.supabase.co) tanpa akhiran path REST /rest/v1/.**
-
-**Perbaikan:**
+**Perbaikan:Tidak ada**
 
 ## US-02 Detail produk
 
@@ -57,7 +46,7 @@ Klik salah satu kartu produk → halaman detail tampil dengan data dari database
 Buka URL produk yang tidak ada, misalnya /produk/9999
  → halaman "tidak ditemukan" muncul.**
 
-**Perbaikan:**
+**Perbaikan:Tidak ada**
 
 ## US-03 Pesan via WhatsApp
 
@@ -87,7 +76,7 @@ Halo, saya ingin memesan: Kopi Bubuk Robusta 250 g — Rp 45.000
 
 Coba juga di HP untuk memastikan WhatsApp mobile terbuka dengan benar.**
 
-**Perbaikan:**
+**Perbaikan:Tidak ada**
 
 ## US-04 Login admin
 
@@ -124,7 +113,7 @@ components/NavAdmin.jsx (Diubah)
 
 Membungkus tombol "Keluar" ke dalam <form action={logout}> sehingga ketika diklik akan memproses logout di server dan mengarahkan kembali ke /admin/login.**
 
-**Perbaikan:**
+**Perbaikan:Tidak ada**
 
 ## US-05 Ganti password
 
@@ -155,7 +144,7 @@ Menampilkan pesan berhasil (text-utama) saat password sukses diperbarui.
 Menonaktifkan tombol submit saat sedang memproses (disabled={pending}).
 Menghapus komponen CatatanBelumAktif dengan tetap mempertahankan tampilan form dan struktur halaman.**
 
-**Perbaikan:**
+**Perbaikan:Tidak ada**
 
 ## US-06 Proteksi halaman admin
 
@@ -183,7 +172,7 @@ app/admin/page.jsx (Diubah)
 
 Menghapus komponen dan impor CatatanBelumAktif dari halaman utama admin /admin.**
 
-**Perbaikan:**
+**Perbaikan:Tidak ada**
 
 ## Debugging dan fitur bonus
 
